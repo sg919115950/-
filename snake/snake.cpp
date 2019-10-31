@@ -133,7 +133,19 @@ void SnakeMove(int key)
 	g_snake.pos[0].y += delta_y;
 
 }
+void EatFood()
+{
+	if(g_snake.pos[0].x == g_food.x &&
+	   g_snake.pos[0].y == g_food.y)
+	   {
+		g_snake.size++;
+	    g_snake.pos[g_snake.size - 1].x = g_food.x;
+	    g_snake.pos[g_snake.size - 1].x = g_food.y;
 
+		Initfood();
+
+	}
+}
 void GameLoop()
 {
 	int key = 0;
@@ -149,6 +161,7 @@ void GameLoop()
 			}
 
 		SnakeMove(key);
+		EatFood();
 		DrawSnake();
 		Sleep(100);
 	}
