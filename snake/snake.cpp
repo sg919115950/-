@@ -24,6 +24,7 @@ typedef struct Snake
 }Snake;
 Snake g_snake;
 Position g_food;
+int g_score;
 
 void Initfood()
 {
@@ -144,8 +145,24 @@ void EatFood()
 
 		Initfood();
 
+		g_score += 10;
+
 	}
 }
+
+int HitWall()
+{
+  if(g_snake.pos[0].x <0 ||
+	 g_snake.pos[0].y <0 ||
+     g_snake.pos[0].x >MAP_WIDTH ||
+	 g_snake.pos[0].y >MAP_HEIGTH)
+  {
+	  return -1;
+  }
+  return 0;
+}
+
+
 void GameLoop()
 {
 	int key = 0;
@@ -162,6 +179,11 @@ void GameLoop()
 
 		SnakeMove(key);
 		EatFood();
+
+		if (HitWall()<0)
+		{
+		   return;
+		}
 		DrawSnake();
 		Sleep(100);
 	}
@@ -169,7 +191,9 @@ void GameLoop()
 
 void Score()
 {
-
+  system("cls");
+  printf("GoodGame!\n");
+  printf("ตรทึ %d\n",g_score);
 }
 
 
