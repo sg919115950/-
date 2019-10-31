@@ -8,7 +8,7 @@
 #include<time.h>
 #include<conio.h>
 #define MAP_WIDTH 60
-#define MAP_HEIGTH 20
+#define MAP_HEIGHT 20
 void DrawChar(int x, int y, char ch);
 
 typedef struct Position
@@ -20,7 +20,7 @@ typedef struct Position
 typedef struct Snake
 {
 	int size;
-	Position pos[MAP_WIDTH * MAP_HEIGTH];
+	Position pos[MAP_WIDTH * MAP_HEIGHT];
 }Snake;
 Snake g_snake;
 Position g_food;
@@ -30,7 +30,7 @@ void Initfood()
 {
 	srand((unsigned)time(NULL));
 	g_food.x = rand() % MAP_WIDTH;
-	g_food.y = rand() % MAP_HEIGTH;
+	g_food.y = rand() % MAP_HEIGHT;
 	DrawChar(g_food.x, g_food.y, '#');
 }
 
@@ -38,11 +38,11 @@ void InitSnake()
 {
 	g_snake.size = 3;
 	g_snake.pos[0].x = MAP_WIDTH / 2;
-	g_snake.pos[0].y = MAP_HEIGTH / 2;
+	g_snake.pos[0].y = MAP_HEIGHT / 2;
 	g_snake.pos[1].x = MAP_WIDTH / 2 - 1;
-	g_snake.pos[1].y = MAP_HEIGTH / 2;
+	g_snake.pos[1].y = MAP_HEIGHT / 2;
 	g_snake.pos[2].x = MAP_WIDTH / 2 - 2;
-	g_snake.pos[2].y = MAP_HEIGTH / 2;
+	g_snake.pos[2].y = MAP_HEIGHT / 2;
 }
 void DrawSnake()
 {
@@ -69,7 +69,7 @@ void DrawChar(int x, int y, char ch)
 }
 void InitMap()
 {
-	for (int i = 0; i <= MAP_HEIGTH; i++)
+	for (int i = 0; i <= MAP_HEIGHT; i++)
 	{
 		for (int j = 0; j <= MAP_WIDTH; j++)
 		{
@@ -77,7 +77,7 @@ void InitMap()
 			{
 				printf("|\n");
 			}
-			else if (i == MAP_HEIGTH)
+			else if (i == MAP_HEIGHT)
 			{
 				printf("-");
 			}
@@ -88,7 +88,7 @@ void InitMap()
 		}
 	}
 	printf("w:上 s:下 a:左 d:右\n");
-    printf("made by 上官琛光\n");
+    printf("made by:上官琛光\n");
 }
 
 void Init()
@@ -158,7 +158,7 @@ int HitWall()
   if(g_snake.pos[0].x <0 ||
 	 g_snake.pos[0].y <0 ||
      g_snake.pos[0].x >MAP_WIDTH ||
-	 g_snake.pos[0].y >MAP_HEIGTH)
+	 g_snake.pos[0].y >MAP_HEIGHT)
   {
 	  return -1;
   }
@@ -169,8 +169,8 @@ int EatSelf()
 {
   for(int i = 1;i<g_snake.size;i++)
   {
-    if(g_snake.pos[0].x == g_snake.pos[2].x &&
-	   g_snake.pos[0].y == g_snake.pos[2].y)
+    if(g_snake.pos[0].x == g_snake.pos[i].x &&
+	   g_snake.pos[0].y == g_snake.pos[i].y)
 	{
 	  return -1;
 	}
