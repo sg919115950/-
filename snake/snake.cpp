@@ -87,6 +87,8 @@ void InitMap()
 			}
 		}
 	}
+	printf("w:上 s:下 a:左 d:右\n");
+    printf("made by 上官琛光\n");
 }
 
 void Init()
@@ -124,6 +126,7 @@ void SnakeMove(int key)
 	{
 		return;
 	}
+
 	DrawChar(g_snake.pos[g_snake.size - 1].x, g_snake.pos[g_snake.size - 1].y, ' ');
 	for (int i = g_snake.size - 1; i > 0; i--)
 	{
@@ -162,10 +165,57 @@ int HitWall()
   return 0;
 }
 
+int EatSelf()
+{
+  for(int i = 1;i<g_snake.size;i++)
+  {
+    if(g_snake.pos[0].x == g_snake.pos[2].x &&
+	   g_snake.pos[0].y == g_snake.pos[2].y)
+	{
+	  return -1;
+	}
+  }
+  return 0;
+}
+
+int IsBack(int key,int last_key)
+{
+
+	if (key == 'w' || key == 'W')
+	{
+		if(last_key == 's'|| last_key == 'S')
+		{
+		  return -1;
+		}
+	}
+	else if (key == 's' || key == 'S')
+	{
+		if(last_key == 'w'|| last_key == 'W')
+		{
+		  return -1;
+		}
+	}
+	else if (key == 'a' || key == 'A')
+	{
+		if(last_key == 'd'|| last_key == 'D')
+		{
+		  return -1;
+		}
+	}
+	else if (key == 'd' || key == 'D')
+	{
+		if(last_key == 'a'|| last_key == 'A')
+		{
+		  return -1;
+		}
+	}
+		return 0;
+	}
 
 void GameLoop()
 {
 	int key = 0;
+	int last_key = 0;
 	while (1)
 	{
 		if (_kbhit())
@@ -178,12 +228,20 @@ void GameLoop()
 			}
 
 		SnakeMove(key);
+
+		if(HitWall()<0)
+		{
+		  return;
+		}
+
+		if(EatSelf()<0)
+		{
+		  return;
+		}
+
 		EatFood();
 
-		if (HitWall()<0)
-		{
-		   return;
-		}
+
 		DrawSnake();
 		Sleep(100);
 	}
